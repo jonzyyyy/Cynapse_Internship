@@ -9,5 +9,7 @@ runs/
 zip_files/
 video/
 *.jpg
-
-got
+*.dvc
+*.venv
+*.rar
+*.vscode

@@ -1,0 +1,4 @@
+[core]
+    remote = remotenas
+['remote "remotenas"']
+    url = /DVC/TelAvivMob_Detector1_PMD_YOLO11

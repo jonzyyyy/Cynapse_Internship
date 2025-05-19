@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Network>
+  <Network.Nodes>
+    <Node ProcessorCategory="Source" ProcessorType="FileSource" Id="3c9b6ed1-7dec-49c9-8835-091f2825ea3d" Name="File" Top="20" Left="113.19999999999996" Height="240" Width="320" Visibility="Visible">
+      <FileSource FileName="\\192.168.77.100\Model_Center\PSA_Detector_2024\Chloe_classifier\videostotest\wrongly_lanelled_non-helmets\vasnippet (9).mp4">
+        <SourceSettings ManagedSourceType="FileFfmpeg" FrameSelectionStrategy="MostRecent" DesiredFPS="25" BestQualityWindowSize="10" MaxSourceBuffer="30" MaxFrameBatchSize="0" CudaEnabled="false" SourceResolution="Rdefault" UsePushSourceStrategyForFile="false" AcceleratedFrameGrabbing="false" DisableStreamCorruptedCheck="true" />
+      </FileSource>
+    </Node>
+    <Node ProcessorCategory="Filter" ProcessorType="YoloTensorRTMultiBatchFilter" Id="dfcc9e01-5f68-4db1-9e1a-612d8eec111b" Name="Deep Learning Batch Multi-Detector (Tensorrt)" Top="319.47999999999996" Left="113.19999999999996" Height="200" Width="320" Visibility="Visible">
+      <Filter>
+        <Filter.Setting>
+          <FilterSetting>
+            <FilterSetting.Properties>
+              <FilterProperty PropertyName="Yolo Batch Size" PropertyValue="16" />
+              <FilterProperty PropertyName="All object" PropertyValue="1" />
+              <FilterProperty PropertyName="Auto(-1)/Manual Set GPU Id" PropertyValue="-1" />
+              <FilterProperty PropertyName="Reload model" PropertyValue="1" />
+              <FilterProperty PropertyName="Number Of Threads (Multistreaming)" PropertyValue="2" />
+              <FilterProperty PropertyName="Show Detection ROI" PropertyValue="0" />
+              <FilterProperty PropertyName="Estimate PA From Person" PropertyValue="0" />
+              <FilterProperty PropertyName="create new ROI" PropertyValue="0" />
+              <FilterProperty PropertyName="Merge Class with NMS" PropertyValue="1" />
+              <FilterProperty PropertyName="Use Padding For Inference" PropertyValue="1" />
+              <FilterProperty PropertyName="Estimate Head From Body" PropertyValue="0" />
+              <FilterProperty PropertyName="Load Encrypted Model" PropertyValue="0" />
+              <FilterProperty PropertyName="Show Label" PropertyValue="1" />
+              <FilterProperty PropertyName="Estimate Upper and Lower Body From Head" PropertyValue="1" />
+              <FilterProperty PropertyName="Get Head From Previous Filter" PropertyValue="0" />
+              <FilterProperty PropertyName="Use Resize Frame From Source" PropertyValue="0" />
+              <FilterProperty PropertyName="ML threshold (detector 1)" PropertyValue="0.2" />
+              <FilterProperty PropertyName="ML threshold (detector 2)" PropertyValue="0.3" />
+              <FilterProperty PropertyName="ML threshold (detector 3)" PropertyValue="0.3" />
+              <FilterProperty PropertyName="NMS" PropertyValue="0.4" />
+              <FilterProperty PropertyName="estimated head:body" PropertyValue="0.4" />
+              <FilterProperty PropertyName="estimated head:body (left)" PropertyValue="0.2" />
+              <FilterProperty PropertyName="estimated head:body (right)" PropertyValue="0.2" />
+              <FilterProperty PropertyName="Minimum Ratio UpperBody To Head" PropertyValue="1.75" />
+              <FilterProperty PropertyName="Maximum Ratio UpperBody To Head" PropertyValue="3" />
+              <FilterProperty PropertyName="Precision (detector 1)" PropertyValue="0" />
+              <FilterProperty PropertyName="Precision (detector 2)" PropertyValue="0" />
+              <FilterProperty PropertyName="Precision (detector 3)" PropertyValue="0" />
+              <FilterProperty PropertyName="Detection Type" PropertyValue="0" />
+              <FilterProperty PropertyName="Process Resolution" PropertyValue="0" />
+              <FilterProperty PropertyName="Label file (detector 1)" PropertyValue="TAmob" />
+              <FilterProperty PropertyName="Model file (detector 1)" PropertyValue="TelAvivMob_Detector1_PMD_YOLO11_train45" />
+              <FilterProperty PropertyName="Label file (detector 2)" PropertyValue="" />
+              <FilterProperty PropertyName="Model file (detector 2)" PropertyValue="" />
+              <FilterProperty PropertyName="Label file (detector 3)" PropertyValue="" />
+              <FilterProperty PropertyName="Model file (detector 3)" PropertyValue="" />
+              <FilterProperty PropertyName="ROI file" PropertyValue="YoloTensorRTMultiBatchFilter" />
+            </FilterSetting.Properties>
+          </FilterSetting>
+        </Filter.Setting>
+      </Filter>
+    </Node>
+  </Network.Nodes>
+  <Network.Links>
+    <Link Id="a7372c8c-75a1-4d57-a9ec-1c70c9b66e07" Name="File -&gt; Deep Learning Batch Multi-Detector (Tensorrt)" Description="File -&gt; Deep Learning Batch Multi-Detector (Tensorrt)" FrameIndex="0" SourceId="3c9b6ed1-7dec-49c9-8835-091f2825ea3d" TargetId="dfcc9e01-5f68-4db1-9e1a-612d8eec111b" Visibility="Visible" />
+  </Network.Links>
+</Network>

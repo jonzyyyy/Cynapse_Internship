@@ -1,0 +1,38 @@
+version: '3.8'
+ 
+services:
+  pytorch:
+    image: cr.cynapse.ai/cv/ultralytics:8.3.26  # Custom Ultralytics YOLOv8 image with GPU support
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    shm_size: 40g  # Set the shared memory size here
+    privileged: true
+    ipc: host
+    # mem_limit: 40g
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+    ports:
+      - 7008:7008
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PUID=1000
+      - PGID=1000
+      - TORCH_DISTRIBUTED_DEBUG=DETAIL
+    volumes:
+      - /mnt/nas/TAmob:/app
+      - /mnt/nas/TAmob/data:/app/data
+      - ./serviceacc.json:/etc/gcsfuse/key.json
+      # Added mounts
+      - /mnt/nas/ML_MLflow/model-engineering/YOLO11/train.sh:/app/train.sh
+      - /mnt/nas/ML_MLflow/model-engineering/YOLO11/train.py:/app/train.py
+      - /mnt/local-nas-dvc/DVC:/DVC
+      # End
+    command: bash /app/train.sh
+    # command: bash /app/test.sh
+    #command: python .py

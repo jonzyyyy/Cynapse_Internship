@@ -1,0 +1,18 @@
+# MLflow Configuration
+# "http://admin:password@35.184.133.0:5000"  if local VM
+# "http://admin:password@10.128.0.3:5000" if GCP VM
+
+mlflow:
+  tracking_uri: "https://mlflow.cynapse.ai/" 
+  experiment_name: "TelAvivMob_Detector1_PMD_YOLO11"
+  user: "jonathan"  
+  tracking_username: "admin"
+  tracking_password: "password"
+
+# YOLO (ignore if not using YOLO)
+yolo_config:
+  data_path: "coco8.yaml"
+  cfg_path: "default.yaml"
+  weights_path: "yolo11m.pt" 
+  # weights_path: "runs/detect/train27/weights/last.pt"
+  resume: false

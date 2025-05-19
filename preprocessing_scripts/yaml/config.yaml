@@ -1,0 +1,56 @@
+
+### Allow to define the classes to be included in the new dataset 
+
+selected_classes:  # indicate the specifc class seleted i.e. (6: "scooter")
+  5: "scooter"
+
+### The output directores where the processed images and labels will be saved for training, validation and test
+
+destination_paths:
+  train: 'scooter_datasets/scooter_dataset_V6/train/' # Replace with destination path to new train folder
+  val: 'scooter_datasets/scooter_dataset_V6/val/' # Replace with destination path to new val folder
+  test: 'scooter_datasets/scooter_dataset_V6/test/' # Replace with destination path to new test folder
+        
+
+# destination_paths:
+#   train: 'test_output' # Replace with destination path to new train folder
+#   none: '' # Replace with destination path to new val folder
+#   none: '' # Replace with destination path to new test folder
+
+### Limits the number of images to be processed for each train, validation and test folder. (Controls the size of dataset)
+
+
+# Example usage of dataset_limits. 
+# - 'car' and 'bus' are classes within the selected classes, along with their limits (either a number or all)
+# - 'none' used when there are no limits imposed on classes. No value is required
+
+dataset_limits:
+  train: 
+    none: ''
+  val: 
+    none: ''
+  test: 
+    none: '' # limits for test set refers to only 1000 images to be copied to the test folder
+
+
+# dataset_limits:
+#   train: 
+#     car: '1' # limits for train and val is not defined (none: '')
+#     bus: '1'
+#     motorcycle: '1'
+#     truck: '1'
+#     bicycle: '1'
+#   val: 
+#     car: '1' # limits for train and val is not defined (none: '')
+#     bus: '1'
+#     motorcycle: '1'
+#     truck: '1'
+#     bicycle: '1'
+#   test: 
+#     none: '' # limits for test set refers to only 1000 images to be copied to the test folder
+    
+### Relates to the data classes in the dataset
+
+# List all class names below with their corresponding ID
+class_names:
+  6: "scooter"
