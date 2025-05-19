@@ -1,1 +1,12 @@
-/data
+data/
+*.log
+*.tmp
+*.bak
+*.swo # Vim swap files
+*.swp # Vim swap files
+old_data/
+runs/
+zip_files/
+video/
+*.jpg
+
