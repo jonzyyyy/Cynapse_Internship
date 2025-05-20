@@ -42,7 +42,7 @@
               <FilterProperty PropertyName="Detection Type" PropertyValue="0" />
               <FilterProperty PropertyName="Process Resolution" PropertyValue="0" />
               <FilterProperty PropertyName="Label file (detector 1)" PropertyValue="TAmob" />
-              <FilterProperty PropertyName="Model file (detector 1)" PropertyValue="TelAvivMob_Detector1_PMD_YOLO11_train45" />
+              <FilterProperty PropertyName="Model file (detector 1)" PropertyValue="TelAvivMob_Detector1_PMD_YOLO11_train49" />
               <FilterProperty PropertyName="Label file (detector 2)" PropertyValue="" />
               <FilterProperty PropertyName="Model file (detector 2)" PropertyValue="" />
               <FilterProperty PropertyName="Label file (detector 3)" PropertyValue="" />
