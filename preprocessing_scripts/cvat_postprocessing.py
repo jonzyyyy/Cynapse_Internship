@@ -12,7 +12,7 @@ import glob # For finding the zip file
 # Directory that contains the '*_relabeled.zip' file.
 # This is the primary input for this orchestrator.
 # Example: "/path/to/your/raw_datasets/scooter_project_files/"
-INPUT_DIR_CONTAINING_ZIP = "/mnt/nas/TAmob/old_data/final_extracted_frames/07_05_2025 20_29_59 (UTC+03_00)_processed_fr20_10_197_21_24" # PLEASE UPDATE THIS
+INPUT_DIR_CONTAINING_ZIP = "/mnt/nas/TAmob/old_data/final_extracted_frames"
 
 # The suffix of the zip file to look for (e.g., "_relabeled.zip")
 ZIP_FILE_SUFFIX = "_relabeled.zip"
@@ -59,25 +59,19 @@ def find_zip_file(directory, suffix):
     return zip_files[0]
 
 def unzip_file(zip_path, extract_to_dir):
-    """Unzips a file to the specified directory."""
+    """Unzips a file using the system unzip command."""
     if not os.path.exists(zip_path):
         print(f"Error: Zip file not found at '{zip_path}'.")
         return False
-    
-    # Create the extraction directory if it doesn't exist
+
     os.makedirs(extract_to_dir, exist_ok=True)
-    
     try:
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-            print(f"Unzipping '{zip_path}' to '{extract_to_dir}'...")
-            zip_ref.extractall(extract_to_dir)
-        print("Unzipping completed successfully.")
+        # Use system unzip for more forgiving extraction
+        subprocess.run(['unzip', '-o', zip_path, '-d', extract_to_dir], check=True)
+        print("Unzipping completed successfully (via system unzip).")
         return True
-    except zipfile.BadZipFile:
-        print(f"Error: Invalid or corrupted zip file at '{zip_path}'.")
-        return False
-    except Exception as e:
-        print(f"An error occurred during unzipping: {e}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error: System unzip failed: {e}")
         return False
 
 # ------------------------------------------------------------------------------

@@ -17,7 +17,7 @@ COMMON_VIDEO_EXTENSIONS = ['.mp4', '.avi', '.mov', '.mkv', '.flv', '.wmv', '.web
 CONFIG_VIDEO_SCRIPT_PATH = "/mnt/nas/TAmob/preprocessing_scripts/vid2frames_autodistill_pipeline/reduce_and_extract_frames.py" # <<< Ensure this script creates an 'images' subfolder in its output
 
 # Base directory containing raw input videos. Also used for IP extraction for output folder naming.
-CONFIG_RAW_INPUT_DIR = "/mnt/nas/Tel-aviv/NewVideos2025/070525/07-05-2025 20-30-00/Media player format/AXIS P5655-E PTZ Dome Network Camera (10.197.21.24) - Camera 1" # <<< EDIT THIS
+CONFIG_RAW_INPUT_DIR = "/mnt/nas/Tel-aviv/NewVideos2025/110525/11-05-2025 20-00-00/Media player format/AXIS P5655-E PTZ Dome Network Camera (10.197.21.24) - Camera 1"
 
 # Base directory where the video processing script will save all its FINAL (Stage 2) output (including subfolders).
 CONFIG_FINAL_FRAMES_BASE_DIR = "/mnt/nas/TAmob/old_data/final_extracted_frames/" # <<< EDIT THIS
@@ -43,7 +43,7 @@ CONFIG_RUN_CVAT_PREP = True # <<< EDIT THIS (True/False)
 # --- Docker Configuration ---
 # Optional: Path to the directory containing 'docker-compose.yml'.
 # Set to None if you don't want to run docker-compose.
-CONFIG_DOCKER_COMPOSE_DIR = "/mnt/nas/ML_Engineering/autodistill_main/" # <<< EDIT THIS or set to None
+CONFIG_DOCKER_COMPOSE_DIR = "/mnt/nas/ML_Engineering/autodistill_main_RAM/" # <<< EDIT THIS or set to None
 
 # Optional: If CONFIG_DOCKER_COMPOSE_DIR is specified, set to True to run 'docker-compose up -d' (detached mode).
 CONFIG_DOCKER_DETACHED_MODE = False # <<< EDIT THIS (if needed)

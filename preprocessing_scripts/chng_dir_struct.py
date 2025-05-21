@@ -171,7 +171,7 @@ def convert_directory(src_dir, dest_dir, new_folder_name, files_limit):
 
 # Specify the absolute or relative path to the source directory containing the split folders (train, test, val).
 # Example 1: Ends with _relabeled_split
-src_directory = "/mnt/nas/TAmob/old_data/final_extracted_frames/07_05_2025 20_29_59 (UTC+03_00)_processed_fr20_10_197_21_24/_relabeled_split/"
+src_directory = "/mnt/nas/TAmob/old_data/final_extracted_frames/trained/05_05_2025 20_30_00 (UTC+03_00)_processed_fr20_10.197.21.23/_relabeled_split"
 # Example 2: Does not end with _relabeled_split
 # src_directory = "/mnt/nas/TAmob/old_data/scooter_datasets/scooter_dataset_V6/" 
 # Example 3: A simpler path
