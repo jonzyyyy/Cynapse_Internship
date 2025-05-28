@@ -192,6 +192,38 @@ def copy_file_safe(src, dst):
     except Exception as e:
         logger.error(f"Error copying file {src} to {dst}: {e}")
 
+def merge_full_dataset_into_split(parent_dataset_dir, split_dest_dir):
+    """
+    Copies all images and labels from parent_dataset_dir/images and /labels
+    into the split_dest_dir/train and split_dest_dir/val folders (images/labels subfolders).
+    Will not overwrite existing files (reviewed files take priority).
+    """
+    if not parent_dataset_dir:
+        return
+
+    print(f"Merging extra full dataset from: {parent_dataset_dir}")
+
+    for split in ['train', 'val']:
+        target_img_dir = os.path.join(split_dest_dir, split, 'images')
+        target_lbl_dir = os.path.join(split_dest_dir, split, 'labels')
+
+        src_img_dir = os.path.join(parent_dataset_dir, split, 'images')
+        src_lbl_dir = os.path.join(parent_dataset_dir, split, 'labels')
+
+        # Only copy if dirs exist
+        if os.path.isdir(src_img_dir):
+            for fname in os.listdir(src_img_dir):
+                src = os.path.join(src_img_dir, fname)
+                dst = os.path.join(target_img_dir, fname)
+                if not os.path.exists(dst):  # don't overwrite reviewed!
+                    copy_file_safe(src, dst)
+        if os.path.isdir(src_lbl_dir):
+            for fname in os.listdir(src_lbl_dir):
+                src = os.path.join(src_lbl_dir, fname)
+                dst = os.path.join(target_lbl_dir, fname)
+                if not os.path.exists(dst):
+                    copy_file_safe(src, dst)
+    print("Full dataset merged into split reviewed set.")
 
 def trainval_split(src_path_for_split, dest_base_dir, train_ratio_val):
     """
@@ -304,7 +336,7 @@ if __name__ == "__main__":
     parser.add_argument("--train_ratio", type=float, default=TRAIN_RATIO, help=f"Proportion of data used for training (default: {TRAIN_RATIO}).")
     parser.add_argument("--seed", type=int, default=SEED, help=f"Seed for reproducibility (default: {SEED}).")
     parser.add_argument("--activate_delete", action='store_true', help="Set to actually delete files; otherwise, simulates deletion.")
-
+    parser.add_argument("--parent_dataset", type=str, default=None, help="Optional: path to a directory with other labeled data to merge into the split set.")
 
     args = parser.parse_args()
 
@@ -355,6 +387,9 @@ if __name__ == "__main__":
         logger.error(f"Critical error: 'images' ({jpg_folder if 'jpg_folder' in locals() else 'N/A'}) or 'labels' ({txt_folder if 'txt_folder' in locals() else 'N/A'}) directory not found or not created properly in {unsorted_source_dir}. Exiting.")
         exit()
 
+    # (Optional) Reviewing pipeline: Add subset of labelled files into main dataset
+    if args.parent_dataset:
+        merge_full_dataset_into_split(args.parent_dataset, DEST_BASE)
 
     # Step 2. Remove any unmatched files between images and labels
     logger.info(f"Checking for unmatched files in {jpg_folder} and {txt_folder}.")
@@ -364,7 +399,7 @@ if __name__ == "__main__":
     # logger.info(f"Checking for empty .txt files in {txt_folder}.")
     # check_empty_txt_files(txt_folder)
     # logger.info(f"Removing unwanted .txt files from {txt_folder}.")
-    # remove_unwanted_txt_files(txt_folder, [0, 2, 3, 4])  # Modify unwanted class IDs as needed
+    # remove_unwanted_txt_files(txt_folder, [0, 2, 3, 4])  # Modify unwanted class IDs as needed    
 
     # Step 3. Split the dataset into training and validation sets
     logger.info(f"Starting dataset split. Source for split: {SRC_PATH_for_split}, Destination base: {DEST_BASE}")

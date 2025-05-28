@@ -22,6 +22,11 @@ ZIP_FILE_SUFFIX = "_relabeled.zip"
 # Example: "data/" or "obj_train_data/"
 DATA_SUBDIR_WITHIN_ZIP = "obj_train_data" # PLEASE UPDATE THIS IF NEEDED
 
+# Optional: If the CVAT dataset is a subset of a larger dataset, you can specify the original dataset 
+# file path, and the script will automatically copy over the original dataset to the annotated files.
+# Directory should contain an images and labels subdirectory.
+PARENT_DATASET_PATH = "/mnt/nas/TAmob/old_data/final_extracted_frames/11_05_2025 19_59_59 (UTC+03_00)_processed_fr20_10_197_21_24/_labeled/train"  # e.g., "/path/to/your/original_dataset/"
+
 # Path to the data_processor.py script
 # Assumes it's in the same directory as this orchestrator script.
 # If not, provide the full path: e.g., "/path/to/scripts/data_processor.py"
@@ -141,7 +146,8 @@ def main():
         "--src", actual_src_for_processor,
         "--dest", OUTPUT_DIR_FOR_PROCESSOR,
         "--train_ratio", str(PROCESSOR_TRAIN_RATIO),
-        "--seed", str(PROCESSOR_SEED)
+        "--seed", str(PROCESSOR_SEED),
+        "--parent_dataset", PARENT_DATASET_PATH
     ]
     if PROCESSOR_ACTIVATE_DELETE:
         processor_args.append("--activate_delete")
