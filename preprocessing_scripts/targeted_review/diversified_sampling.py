@@ -6,6 +6,8 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from typing import Dict, List, Tuple
 from tqdm import tqdm
+from collections import defaultdict
+import csv
 
 def load_embeddings_labels_confidences(
     emb_dir: str,
@@ -120,11 +122,25 @@ def main():
 
     # print(f"Selected {len(selected_obj_ids)} samples for review.")
 
-    # 5. Output for review
-    with open(args.output_path, "w") as f:
-        for obj_id in sorted(selected_obj_ids):
-            f.write(obj_id + "\n")
-    print(f"Saved list to {args.output_path}")
+
+    # 5. Output for review (CSV in grouped format)
+    # Map image_path to list of bbox indices
+    image_to_indices = defaultdict(list)
+    for obj_id in sorted(selected_obj_ids):
+        # obj_id format: "image_id_index"
+        if "_" not in obj_id:
+            continue  # skip malformed ids
+        image_path, idx = obj_id.rsplit("_", 1)
+        image_to_indices[image_path].append(idx)
+
+    with open(args.output_path, "w", newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["image_path", "bbox_indices"])
+        for image_path, idx_list in image_to_indices.items():
+            indices_str = ",".join(sorted(idx_list, key=int))
+            writer.writerow([image_path, indices_str])
+    print(f"Saved grouped list to {args.output_path} as CSV")
+
 
 if __name__ == "__main__":
     main()
