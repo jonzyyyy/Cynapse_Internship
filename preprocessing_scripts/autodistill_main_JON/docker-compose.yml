@@ -1,0 +1,22 @@
+services:
+  pytorch:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    shm_size: 40g
+    privileged: true
+    ipc: host
+    runtime: nvidia
+    gpus: all
+    ports:
+    - 6007:6007
+    environment:
+    - PUID=1000
+    - PGID=1000
+    - TORCH_DISTRIBUTED_DEBUG=DETAIL
+    volumes:
+    - /mnt/nas/ML_Engineering/autodistill_main_RAM:/app
+    - /mnt/nas/TAmob/old_data/final_extracted_frames/11_05_2025 19_59_59 (UTC+03_00)_processed_fr20_10_197_21_24:/app/data
+    tmpfs:
+    - /tmp
+    command: bash /app/run.sh
