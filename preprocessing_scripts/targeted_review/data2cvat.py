@@ -214,9 +214,9 @@ if __name__ == "__main__":
         exit(1)
 
     # Hardcoded values:
-    args.src_dir = "/mnt/nas/TAmob/old_data/scooter_datasets/scooter_dataset_V6/train"
-    args.classes = ['car', 'motorcycle', 'bus', 'truck', 'bicycle', 'scooter']
-    args.subset = 'Train'
+    # args.src_dir = "/mnt/nas/TAmob/old_data/scooter_datasets/scooter_dataset_V6/train"
+    # args.classes = ['car', 'motorcycle', 'bus', 'truck', 'bicycle', 'scooter']
+    # args.subset = 'Train'
     
     move_and_rename_files(args.src_dir, args.classes, args.subset)
     

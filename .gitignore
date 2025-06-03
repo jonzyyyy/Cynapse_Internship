@@ -10,6 +10,7 @@ video/
 *.jpg
 *.venv
 *.rar
+documentation/
 
 *.tar.gz
 *.npy
@@ -18,7 +19,7 @@ video/
 
 # Common cache directories
 __pycache__/
-.cache/
+cache/
 *.cache
 
 # (Optional) Ignore VSCode settings and other common IDE metadata

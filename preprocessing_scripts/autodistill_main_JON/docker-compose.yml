@@ -17,7 +17,7 @@ services:
     - TORCH_DISTRIBUTED_DEBUG=DETAIL
     volumes:
     - /mnt/nas/TAmob/preprocessing_scripts/autodistill_main_JON:/app
-    - /mnt/nas/TAmob/old_data/final_extracted_frames/23_05_2025 19_59_59 (UTC+03_00)_processed_fr5_10_197_21_24:/app/data
+    - /mnt/nas/TAmob/old_data/final_extracted_frames/23_05_2025 20_29_59 (UTC+03_00)_processed_fr10_10_197_21_23:/app/data
     tmpfs:
     - /tmp
     command: bash /app/run.sh

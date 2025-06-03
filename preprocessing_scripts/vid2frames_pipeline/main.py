@@ -13,7 +13,7 @@ COMMON_VIDEO_EXTENSIONS = ['.mp4', '.avi', '.mov', '.mkv', '.flv', '.wmv', '.web
 # Please update the variables below before running the script.
 
 # Base directory containing raw input videos. Also used for IP extraction for output folder naming.
-CONFIG_RAW_INPUT_DIR = "/Volumes/Model_Center/Tel-aviv/NewVideos2025/230525/Export 23-05-2025 20-30-00/Media player format/AXIS P5655-E PTZ Dome Network Camera (10.197.21.23) - Camera 1"
+CONFIG_RAW_INPUT_DIR = "/mnt/nas/Tel-aviv/NewVideos2025/230525/Export 23-05-2025 20-30-00/Media player format/AXIS P5655-E PTZ Dome Network Camera (10.197.21.23) - Camera 1"
 
 # Base directory where the video processing script will save all its FINAL (Stage 2) output (including subfolders).
 CONFIG_FINAL_FRAMES_BASE_DIR = "/mnt/nas/TAmob/old_data/final_extracted_frames/" # <<< EDIT THIS

@@ -12,7 +12,7 @@ import glob # For finding the zip file
 # Directory that contains the '*_relabeled.zip' file.
 # This is the primary input for this orchestrator.
 # Example: "/path/to/your/raw_datasets/scooter_project_files/"
-INPUT_DIR_CONTAINING_ZIP = "/mnt/nas/TAmob/old_data/final_extracted_frames"
+INPUT_DIR_CONTAINING_ZIP = "/mnt/nas/TAmob/old_data/final_extracted_frames/23_05_2025 19_59_59 (UTC+03_00)_processed_fr5_10_197_21_24/"
 
 # The suffix of the zip file to look for (e.g., "_relabeled.zip")
 ZIP_FILE_SUFFIX = "_relabeled.zip"
@@ -24,7 +24,7 @@ DATA_PROCESSOR_SCRIPT_PATH = "preprocess_CVAT_data.py"
 
 # --- Arguments for data_processor.py ---
 # These will be passed as command-line arguments to data_processor.py
-PROCESSOR_TRAIN_RATIO = 1
+PROCESSOR_TRAIN_RATIO = 0.85
 PROCESSOR_SEED = 42
 PROCESSOR_ACTIVATE_DELETE = True # Set to True to enable actual deletion in data_processor.py
 
