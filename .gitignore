@@ -10,7 +10,6 @@ video/
 *.jpg
 *.venv
 *.rar
-*.vscode
 
 *.tar.gz
 *.npy
@@ -23,6 +22,6 @@ __pycache__/
 *.cache
 
 # (Optional) Ignore VSCode settings and other common IDE metadata
-.vscode/
-.idea/
+*.vscode/
+*.idea/
 .DS_Store
