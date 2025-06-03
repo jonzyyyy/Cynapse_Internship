@@ -33,8 +33,9 @@ CLASS_NAMES = {
 # ================================================
 # MODIFY THESE VARIABLES AS NEEDED
 # ================================================
-DATASET_PATH = "/mnt/nas/TAmob/old_data/final_extracted_frames/05_05_2025 09_30_00 (UTC+03_00)_processed_fr20_10.197.21.23/05_05_2025 09_30_00 (UTC+03_00)_processed_fr20_relabelled/"  # Root folder of your dataset with images/ and labels/ subdirectories
-NUM_IMAGES_TO_SAVE = 20                 # Define the number of images to process and save
+# Path to the dataset directory containing images and labels.
+DATASET_PATH = "/mnt/nas/TAmob/old_data/scooter_datasets/scooter_dataset_V6/train"
+NUM_IMAGES_TO_SAVE = 99999999999  # Define the number of images to process and save
 
 # Define directory paths based on the DATASET_PATH.
 IMAGES_DIR = os.path.join(DATASET_PATH, "images")

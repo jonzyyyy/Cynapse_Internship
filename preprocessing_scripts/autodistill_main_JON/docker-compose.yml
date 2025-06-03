@@ -9,14 +9,15 @@ services:
     runtime: nvidia
     gpus: all
     ports:
-    - 6007:6007
+    - 6008:6008
     environment:
+    - CUDA_VISIBLE_DEVICES=3
     - PUID=1000
     - PGID=1000
     - TORCH_DISTRIBUTED_DEBUG=DETAIL
     volumes:
-    - /mnt/nas/ML_Engineering/autodistill_main_RAM:/app
-    - /mnt/nas/TAmob/old_data/final_extracted_frames/11_05_2025 19_59_59 (UTC+03_00)_processed_fr20_10_197_21_24:/app/data
+    - /mnt/nas/TAmob/preprocessing_scripts/autodistill_main_JON:/app
+    - /mnt/nas/TAmob/old_data/final_extracted_frames/23_05_2025 19_59_59 (UTC+03_00)_processed_fr5_10_197_21_24:/app/data
     tmpfs:
     - /tmp
     command: bash /app/run.sh

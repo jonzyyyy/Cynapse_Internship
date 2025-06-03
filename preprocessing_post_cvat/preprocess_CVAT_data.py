@@ -192,38 +192,36 @@ def copy_file_safe(src, dst):
     except Exception as e:
         logger.error(f"Error copying file {src} to {dst}: {e}")
 
-def merge_full_dataset_into_split(parent_dataset_dir, split_dest_dir):
+def merge_subset_into_parent(subset_dir, parent_dir):
     """
-    Copies all images and labels from parent_dataset_dir/images and /labels
-    into the split_dest_dir/train and split_dest_dir/val folders (images/labels subfolders).
-    Will not overwrite existing files (reviewed files take priority).
+    Copies all images and labels from subset_dir/images and /labels
+    into parent_dir/images and /labels.
+    Will not overwrite existing files.
     """
-    if not parent_dataset_dir:
-        return
+    logger.info(f"Merging relabeled files from {subset_dir} into parent dataset at {parent_dir}...")
+    src_img_dir = os.path.join(subset_dir, 'images')
+    src_lbl_dir = os.path.join(subset_dir, 'labels')
+    dst_img_dir = os.path.join(parent_dir, 'images')
+    dst_lbl_dir = os.path.join(parent_dir, 'labels')
+    os.makedirs(dst_img_dir, exist_ok=True)
+    os.makedirs(dst_lbl_dir, exist_ok=True)
+    n_img_copied = 0
+    n_lbl_copied = 0
 
-    print(f"Merging extra full dataset from: {parent_dataset_dir}")
+    if os.path.isdir(src_img_dir):
+        for fname in os.listdir(src_img_dir):
+            src = os.path.join(src_img_dir, fname)
+            dst = os.path.join(dst_img_dir, fname)
+            shutil.copy2(src, dst)
+            n_img_copied += 1
 
-    for split in ['train', 'val']:
-        target_img_dir = os.path.join(split_dest_dir, split, 'images')
-        target_lbl_dir = os.path.join(split_dest_dir, split, 'labels')
-
-        src_img_dir = os.path.join(parent_dataset_dir, split, 'images')
-        src_lbl_dir = os.path.join(parent_dataset_dir, split, 'labels')
-
-        # Only copy if dirs exist
-        if os.path.isdir(src_img_dir):
-            for fname in os.listdir(src_img_dir):
-                src = os.path.join(src_img_dir, fname)
-                dst = os.path.join(target_img_dir, fname)
-                if not os.path.exists(dst):  # don't overwrite reviewed!
-                    copy_file_safe(src, dst)
-        if os.path.isdir(src_lbl_dir):
-            for fname in os.listdir(src_lbl_dir):
-                src = os.path.join(src_lbl_dir, fname)
-                dst = os.path.join(target_lbl_dir, fname)
-                if not os.path.exists(dst):
-                    copy_file_safe(src, dst)
-    print("Full dataset merged into split reviewed set.")
+    if os.path.isdir(src_lbl_dir):
+        for fname in os.listdir(src_lbl_dir):
+            src = os.path.join(src_lbl_dir, fname)
+            dst = os.path.join(dst_lbl_dir, fname)
+            shutil.copy2(src, dst)
+            n_lbl_copied += 1
+    logger.info(f"Copied {n_img_copied} images and {n_lbl_copied} labels from relabeled set to parent dataset.")
 
 def trainval_split(src_path_for_split, dest_base_dir, train_ratio_val):
     """
@@ -389,7 +387,9 @@ if __name__ == "__main__":
 
     # (Optional) Reviewing pipeline: Add subset of labelled files into main dataset
     if args.parent_dataset:
-        merge_full_dataset_into_split(args.parent_dataset, DEST_BASE)
+        logger.info(f"Parent dataset provided, merging relabeled files into parent directory: {args.parent_dataset}")
+        merge_subset_into_parent(SRC_PATH_for_split, args.parent_dataset)
+        logger.info("Relabeled files merged into parent dataset. Skipping train/val split.")
 
     # Step 2. Remove any unmatched files between images and labels
     logger.info(f"Checking for unmatched files in {jpg_folder} and {txt_folder}.")
@@ -399,10 +399,12 @@ if __name__ == "__main__":
     # logger.info(f"Checking for empty .txt files in {txt_folder}.")
     # check_empty_txt_files(txt_folder)
     # logger.info(f"Removing unwanted .txt files from {txt_folder}.")
-    # remove_unwanted_txt_files(txt_folder, [0, 2, 3, 4])  # Modify unwanted class IDs as needed    
+    # remove_unwanted_txt_files(txt_folder, [0, 1, 2, 3])  # Modify unwanted class IDs as needed    
 
     # Step 3. Split the dataset into training and validation sets
-    logger.info(f"Starting dataset split. Source for split: {SRC_PATH_for_split}, Destination base: {DEST_BASE}")
-    trainval_split(SRC_PATH_for_split, DEST_BASE, current_train_ratio)
+    if not args.parent_dataset:
+        logger.info(f"Proceeding with dataset split. Source: {SRC_PATH_for_split}, Destination base: {DEST_BASE}")
+        trainval_split(SRC_PATH_for_split, DEST_BASE, current_train_ratio)
 
     logger.info("Script execution finished.")
+    

@@ -213,11 +213,10 @@ if __name__ == "__main__":
         print(f"Error: Source directory {args.src_dir} does not exist.")
         exit(1)
 
+    # Hardcoded values:
+    args.src_dir = "/mnt/nas/TAmob/old_data/scooter_datasets/scooter_dataset_V6/train"
+    args.classes = ['car', 'motorcycle', 'bus', 'truck', 'bicycle', 'scooter']
+    args.subset = 'Train'
     
     move_and_rename_files(args.src_dir, args.classes, args.subset)
-
-    # Hardcoded values:
-    # src_dir = "/mnt/nas/TAmob/old_data/final_extracted_frames/07_05_2025 20_29_59 (UTC+03_00)_processed_fr20_10_197_21_23/_labeled/train"
-    # classes = ['car', 'motorcycle', 'bus', 'truck', 'bicycle', 'scooter]
-    # subset = 'Train' 
-    # move_and_rename_files(src_dir, classes, subset)
+    

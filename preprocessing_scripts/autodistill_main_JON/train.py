@@ -29,7 +29,7 @@ base_model = GroundingDINO(ontology=CaptionOntology({
 # label all images in a folder called `context_images`
 # base_model.label("./data/", extension=".jpg", nms_settings="class_agnostic", iou=0.3, split_ratio=1)
 
-results = base_model.label("./data/", extension=".jpg", nms_settings="class_agnostic", iou=0.7, split_ratio=1, box_threshold=0.12)
+results = base_model.label("./data/", extension=".jpg", nms_settings="class_agnostic", iou=0.7, split_ratio=1)
 
 
 # Create the CSV file in the ./data directory (optional)

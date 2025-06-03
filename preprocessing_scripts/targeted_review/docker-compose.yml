@@ -1,0 +1,32 @@
+services:
+  pytorch:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    shm_size: 40g
+    privileged: true
+    ipc: host
+    runtime: nvidia
+    gpus: all
+    ports:
+      - 6008:6008
+    environment:
+      - CUDA_VISIBLE_DEVICES=3
+      - PUID=1000
+      - PGID=1000
+      - TORCH_DISTRIBUTED_DEBUG=DETAIL
+      - HF_HOME=/app/cache/huggingface
+    volumes:
+      - /mnt/nas/TAmob/preprocessing_scripts/targeted_review:/app
+      - :/app/data
+      - /mnt/nas/TAmob/preprocessing_scripts/targeted_review/cache:/app/cache 
+    tmpfs:
+      - /tmp
+    command: >
+      python3 /app/pipeline.py
+      --input_and_label_dir "/app/data"
+      --class_map_json "/app/class_map.json"
+      --output_folder "/app/pipeline_output3"
+      --batch_size 8
+      --subset Train
+#     --diversified_csvs "/app/modelA_preds.csv" "/app/modelB_preds.csv"
