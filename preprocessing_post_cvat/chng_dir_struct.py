@@ -190,9 +190,9 @@ dest_directory = "/mnt/nas/TAmob/data/"
 # Set the number to a positive integer to transfer that many files randomly;
 # set to 0 (or remove the key) to transfer all files.
 files_limit = {
-    "train": 0,  # Transfer all files (or up to this large number)
-    "test": 9999999,   # Transfer all files
-    "val": 9999999     # Transfer all files
+    "train": 99999999, 
+    "test": 9999999,   
+    "val": 9999999
     # Example: "train": 100, "test": 50, "val": 30 
 }
 

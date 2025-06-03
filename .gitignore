@@ -6,10 +6,23 @@ data/
 *.swp # Vim swap files
 old_data/
 runs/
-zip_files/
 video/
 *.jpg
 *.venv
 *.rar
 *.vscode
-/data
+
+*.tar.gz
+*.npy
+*.csv
+*.zip
+
+# Common cache directories
+__pycache__/
+.cache/
+*.cache
+
+# (Optional) Ignore VSCode settings and other common IDE metadata
+.vscode/
+.idea/
+.DS_Store
