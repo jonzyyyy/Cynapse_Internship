@@ -27,7 +27,7 @@
               <FilterProperty PropertyName="Estimate Upper and Lower Body From Head" PropertyValue="1" />
               <FilterProperty PropertyName="Get Head From Previous Filter" PropertyValue="0" />
               <FilterProperty PropertyName="Use Resize Frame From Source" PropertyValue="0" />
-              <FilterProperty PropertyName="ML threshold (detector 1)" PropertyValue="0.2" />
+              <FilterProperty PropertyName="ML threshold (detector 1)" PropertyValue="0.4" />
               <FilterProperty PropertyName="ML threshold (detector 2)" PropertyValue="0.3" />
               <FilterProperty PropertyName="ML threshold (detector 3)" PropertyValue="0.3" />
               <FilterProperty PropertyName="NMS" PropertyValue="0.4" />
@@ -42,7 +42,7 @@
               <FilterProperty PropertyName="Detection Type" PropertyValue="0" />
               <FilterProperty PropertyName="Process Resolution" PropertyValue="0" />
               <FilterProperty PropertyName="Label file (detector 1)" PropertyValue="TAmob" />
-              <FilterProperty PropertyName="Model file (detector 1)" PropertyValue="TAmob" />
+              <FilterProperty PropertyName="Model file (detector 1)" PropertyValue="TelAvivMob_Detector1_PMD_YOLO11_train61" />
               <FilterProperty PropertyName="Label file (detector 2)" PropertyValue="" />
               <FilterProperty PropertyName="Model file (detector 2)" PropertyValue="" />
               <FilterProperty PropertyName="Label file (detector 3)" PropertyValue="" />

@@ -52,14 +52,22 @@ def extract_hybrid_embeddings_from_yolo(
     processor,
     text_model
 ) -> List[np.ndarray]:
+    # Log more detailed information about the files being processed
+    logging.info(f"Processing image: {image_path}")
+    logging.info(f"Using label file: {label_path}")
+    
     image = Image.open(image_path)
     img_w, img_h = image.size
     hybrid_embeddings = []
 
     with open(label_path, "r") as f:
-        for line in f:
+        lines = f.readlines()
+        logging.info(f"Found {len(lines)} annotation lines in label file")
+        
+        for line in lines:
             parts = line.strip().split()
             if len(parts) != 5:
+                logging.warning(f"Skipping invalid line (expected 5 parts): {line}")
                 continue
             class_id = parts[0]
             xc, yc, w, h = map(float, parts[1:])
@@ -90,21 +98,70 @@ if __name__ == "__main__":
 
     with open(args.class_map) as f:
         class_id_to_name = json.load(f)
-
+    
+    # Add diagnostic information
+    logging.info(f"Looking for images in: {args.image_dir}")
+    logging.info(f"Looking for labels in: {args.label_dir}")
+    logging.info(f"Will save embeddings to: {args.dest_dir}")
+    
     os.makedirs(args.dest_dir, exist_ok=True)
-
+    
+    # Check if directories exist and are accessible
+    if not os.path.exists(args.image_dir):
+        logging.error(f"Image directory does not exist: {args.image_dir}")
+        exit(1)
+    if not os.path.exists(args.label_dir):
+        logging.error(f"Label directory does not exist: {args.label_dir}")
+        exit(1)
+    
+    # Load models
+    logging.info("Loading models...")
     vision_model = CLIPModel.from_pretrained(args.vision_model_name)
     processor = CLIPProcessor.from_pretrained(args.processor_name)
     text_model = SentenceTransformer(args.text_model_name)
+    logging.info("Models loaded successfully")
 
     valid_exts = (".jpg", ".jpeg", ".png", ".bmp")
     image_files = sorted([f for f in os.listdir(args.image_dir) if f.lower().endswith(valid_exts)])
+    logging.info(f"Found {len(image_files)} image files with valid extensions")
+    
+    # List some example image files to verify
+    if image_files:
+        logging.info(f"Example images: {image_files[:5]}")
+    else:
+        logging.error("No image files found! Check path and extensions.")
+        exit(1)
+    
+    # Check if labels exist for the images
+    label_files = sorted([f for f in os.listdir(args.label_dir) if f.endswith('.txt')])
+    logging.info(f"Found {len(label_files)} label files")
+    
+    # Check how many images have corresponding labels
+    image_bases = {os.path.splitext(f)[0] for f in image_files}
+    label_bases = {os.path.splitext(f)[0] for f in label_files}
+    matching_files = image_bases.intersection(label_bases)
+    logging.info(f"Found {len(matching_files)} images with matching label files")
+    
+    if not matching_files:
+        logging.error("No images have matching label files! Check naming convention.")
+        # Print some image and label filenames to help diagnose
+        logging.error(f"Image examples: {list(image_bases)[:5]}")
+        logging.error(f"Label examples: {list(label_bases)[:5]}")
+        exit(1)
 
     already_done = set(os.path.splitext(f)[0] for f in os.listdir(args.dest_dir) if f.endswith('.npy'))
+    logging.info(f"Found {len(already_done)} already processed files")
 
     num_to_process = sum(
         1 for f in image_files if os.path.splitext(f)[0] not in already_done
     )
+    logging.info(f"Will process {num_to_process} new images")
+    
+    if num_to_process == 0:
+        logging.warning("No new images to process! All files may already have embeddings.")
+        logging.info("If this is unexpected, check if the output directory contains .npy files that should be removed.")
+        exit(0)
+        
     progress_bar = tqdm(total=num_to_process, desc="Images processed", unit="img")
 
     batch = []

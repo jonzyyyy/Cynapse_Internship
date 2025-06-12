@@ -18,16 +18,23 @@ services:
       - HF_HOME=/app/cache/huggingface
     volumes:
       - /mnt/nas/TAmob/preprocessing_scripts/targeted_review:/app
-      # app/data is the directory that should contain the training data (usually ends with _labeled, if labeled by GroundingDino) 
-      - /mnt/nas/TAmob/old_data/final_extracted_frames/23_05_2025 20_29_59 (UTC+03_00)_processed_fr10_10_197_21_23/_labeled/:/app/data
-      - /mnt/nas/TAmob/cache:/app/cache 
+      - /mnt/nas/TAmob/cache:/app/cache
+      # /app/data's structure should be as follows:
+      # └── train/
+      # │    ├── images/      Contains image files (.jpg, .jpeg, .png)
+      # │    └── labels/      Contains YOLO format label files (.txt)
+      # app/data is the directory that should contain the training data (usually ends with _labeled)
+      # This is the usual output directory structure of the autolabelling / autodistillation model
+      - /mnt/nas/TAmob/old_data/recent_data:/app/data
+      - /mnt/nas/TAmob/preprocessing_scripts/targeted_review/class_map.json:/app/class_map.json
+      - /mnt/nas/TAmob/old_data/targeted_review_outputs/pipeline_output6:/app/output_data 
     tmpfs:
       - /tmp
     command: >
       python3 /app/pipeline.py
       --input_and_label_dir "/app/data"
       --class_map_json "/app/class_map.json"
-      --output_folder "/app/pipeline_output3"
+      --output_folder "/app/output_data"
       --batch_size 8
       --subset Train
 #     --diversified_csvs "/app/modelA_preds.csv" "/app/modelB_preds.csv"

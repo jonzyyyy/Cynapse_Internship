@@ -20,12 +20,10 @@ def main_pipeline(
     os.makedirs(output_folder, exist_ok=True)
     embeddings_dir = os.path.join(output_folder, "embeddings")
     os.makedirs(embeddings_dir, exist_ok=True)
-    input_dir = os.path.join(input_and_label_dir, "_labeled", "train", "images")
-    label_dir = os.path.join(input_and_label_dir, "_labeled", "train", "labels")
     input_dir = os.path.join(input_and_label_dir, "train", "images")
     label_dir = os.path.join(input_and_label_dir, "train", "labels")
     confidence_csv = os.path.join(input_and_label_dir, "object_confidences.csv")
-    # Standard output file names (now as CSVs)``
+    # Standard output file names (now as CSVs)
     priority_list_csv = os.path.join(output_folder, "priority_review.csv")
     outlier_output_csv = os.path.join(output_folder, "outliers.csv")
     merged_priority_csv = os.path.join(os.path.dirname(priority_list_csv), "merged_priority_review.csv")
@@ -35,11 +33,7 @@ def main_pipeline(
         class_id_to_name = json.load(f)
         class_list = [class_id_to_name[str(i)] for i in range(len(class_id_to_name))]
 
-    # 1. Data Ingestion: Assume images are placed in input_dir
-
-    # 2. Auto-Labelling: Run GroundingDINO or equivalent externally to create YOLO .txts in label_dir
-
-    # 3. Hybrid Embedding Extraction - Save to output_folder/embeddings
+    # 1. Hybrid Embedding Extraction - Save to output_folder/embeddings
     subprocess.run([
         "python3", "hybrid_embedding_extractor.py",
         "--image_dir", input_dir,
@@ -49,7 +43,7 @@ def main_pipeline(
         "--batch_size", str(batch_size)
     ], check=True)
 
-    # 4. Outlier/Noise Detection - Use embeddings_dir in output_folder
+    # 2. Outlier/Noise Detection - Use embeddings_dir in output_folder
     subprocess.run([
         "python3", "outlier_detection.py",
         "--embeddings_dir", embeddings_dir,
@@ -58,7 +52,7 @@ def main_pipeline(
         "--output_path", outlier_output_csv
     ], check=True)
 
-    # 5 & 6. Committee Disagreement & Uncertainty/Diversity Sampling - Use embeddings_dir in output_folder
+    # 3 & 4. Committee Disagreement & Uncertainty/Diversity Sampling - Use embeddings_dir in output_folder
     # diversified_args = [
     #     "python3", "diversified_sampling.py",
     #     "--embeddings_dir", embeddings_dir,
@@ -72,7 +66,7 @@ def main_pipeline(
     #     diversified_args += ["--committee_csvs"] + diversified_csvs
     # subprocess.run(diversified_args, check=True)
 
-    # 7. Construct Combined Priority List for Review (merge CSVs with grouped indices)
+    # 5. Construct Combined Priority List for Review (merge CSVs with grouped indices)
     priority_indices = defaultdict(set)
     files_to_merge = []
     for fpath in [outlier_output_csv, priority_list_csv]:
